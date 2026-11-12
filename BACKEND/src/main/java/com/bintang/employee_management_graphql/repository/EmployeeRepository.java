@@ -1,4 +1,7 @@
 package com.bintang.employee_management_graphql.repository;
 
-public interface EmployeeRepository {
+import com.bintang.employee_management_graphql.entity.Employee;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface EmployeeRepository extends JpaRepository<Employee, Long> {
 }
