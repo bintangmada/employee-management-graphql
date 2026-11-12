@@ -24,4 +24,7 @@ public class Employee {
 
     private String position;
 
+    @Column(nullable = false)
+    private Boolean deleted = false;
+
 }
