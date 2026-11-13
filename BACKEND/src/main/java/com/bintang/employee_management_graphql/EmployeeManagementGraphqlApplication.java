@@ -8,7 +8,7 @@ public class EmployeeManagementGraphqlApplication {
 
 	public static void main(String[] args) {
 		SpringApplication.run(EmployeeManagementGraphqlApplication.class, args);
-		System.out.println("EMPLOYEE MANAGEMENT GRAPHQL BACKEND IS RUNNING");
+		System.out.println("\nEMPLOYEE MANAGEMENT GRAPHQL BACKEND IS RUNNING");
 	}
 
 }
