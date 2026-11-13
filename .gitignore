@@ -39,3 +39,33 @@ target/
 # OS
 .DS_Store
 Thumbs.db
+
+# ===================================
+# FRONTEND - REACT + VITE
+# ===================================
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+
+# Environment variables
+.env
+.env.*
+!.env.example
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+pnpm-debug.log*
+
+# Cache
+.vite/
+.eslintcache
+
+# IDE
+.vscode/
+
+# OS
+.DS_Store
