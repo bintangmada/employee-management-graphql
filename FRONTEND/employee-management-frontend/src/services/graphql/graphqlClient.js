@@ -1,13 +1,16 @@
 const GRAPHQL_URL = import.meta.env.VITE_GRAPHQL_URL;
 
-export async function graphqlRequest(query) {
+export async function graphqlRequest(query, variables = {}) {
     const response = await fetch(GRAPHQL_URL, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
             "Accept": "application/json"
         },
-        body: JSON.stringify({query})
+        body: JSON.stringify({
+            query,
+            variables
+        })
     });
 
     const result = await response.json();

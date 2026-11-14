@@ -45,6 +45,16 @@ function EmployeeForm({
 
             <input
                 type="text"
+                placeholder="Input employee email"
+                value={email}
+                onChange={(e) => {
+                    setEmail(e.target.value)
+                    setSubmitted(false)
+                }}
+            />
+
+            <input
+                type="text"
                 placeholder="Input employee position"
                 value={position}
                 onChange={(e) => {

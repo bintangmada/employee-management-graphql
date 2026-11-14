@@ -17,12 +17,8 @@ export async function getAllEmployees() {
 
 export async function createEmployee(input) {
     const query = `
-        mutation {
-            createEmployee(input : {
-                name: "${input.name}"
-                email: "${input.email}"
-                position: "${input.position}"
-            }) {
+        mutation CreateEmployee($input: EmployeeInput!) {
+            createEmployee(input : $input) {
                 id
                 name
                 email
@@ -30,7 +26,7 @@ export async function createEmployee(input) {
             }
         }
     `;
-    const data = await graphqlRequest(query);
+    const data = await graphqlRequest(query, {input});
     return data.createEmployee;
 }
 
