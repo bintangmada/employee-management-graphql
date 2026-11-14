@@ -1,3 +1,5 @@
+import { useEffect } from "react";
+
 function EmployeeForm({
     name, 
     setName, 
@@ -5,25 +7,46 @@ function EmployeeForm({
     setEmail,
     position, 
     setPosition, 
-    addEmployee, 
-    setSubmitted
+    addEmployee,
+    modifEmployee, 
+    setSubmitted,
+    selectedEmployee,
+    setSelectedEmployee
 }){
+
+    useEffect(() => {
+        if(selectedEmployee) {
+            setName(selectedEmployee.name);
+            setEmail(selectedEmployee.email);
+            setPosition(selectedEmployee.position)
+        }
+    }, [selectedEmployee, setName, setEmail, setPosition])
 
     async function handleSubmit(event) {
         event.preventDefault();
 
         try {
-            await addEmployee({
+            const input = {
                 name,
                 email,
                 position
-            });
+            };
+
+            if (selectedEmployee) {
+                //Update employee
+                await modifEmployee(selectedEmployee.id, input);
+            } else {
+                // Create employee
+                await addEmployee(input);
+            }
 
             setSubmitted(true);
 
+            // Kosongkan form setelah berhasil
             setName("");
             setEmail("");
             setPosition("");
+            setSelectedEmployee(null);
         } catch (error) {
             console.log("Failed to create emmployee: ", error);
         }
@@ -31,6 +54,8 @@ function EmployeeForm({
 
     return(
         <form onSubmit={handleSubmit}>
+
+            <h2>{selectedEmployee ? "Edit Employee" : "Create Employee"}</h2>
             
             <input
                 type="text"
@@ -44,7 +69,7 @@ function EmployeeForm({
             />
 
             <input
-                type="text"
+                type="email"
                 placeholder="Input employee email"
                 value={email}
                 onChange={(e) => {
@@ -63,7 +88,7 @@ function EmployeeForm({
                 }}
             />
 
-            <button type="submit">Submit</button>
+            <button type="submit">{selectedEmployee ? "Update" : "Submit"}</button>
         </form>
     )
 }
