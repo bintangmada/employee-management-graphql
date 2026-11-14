@@ -8,8 +8,8 @@ function App() {
   const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
   const [submitted, setSubmitted] = useState(false);
-
-  const {employees, loading, error, addEmployee} = useEmployees();
+  const {employees, loading, error, addEmployee, modifEmployee} = useEmployees();
+  const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   useEffect(() => {
     console.log("Name: ", name)
@@ -18,6 +18,10 @@ function App() {
       console.log("Cleanup dijalankan")
     }
   },[name])
+
+  function handleEdit(employee) {
+    setSelectedEmployee(employee)
+  }
 
   return (
     <>
@@ -30,7 +34,11 @@ function App() {
 
       {error && <p>Error: {error}</p>}
 
-      {!loading && !error && (<EmployeeTable employees={employees}/>)}
+      {!loading && !error && 
+      (<EmployeeTable 
+        employees={employees}
+        onEdit={handleEdit}
+      />)}
 
       <br/>
       
@@ -42,7 +50,10 @@ function App() {
         position={position}
         setPosition={setPosition}
         addEmployee={addEmployee}
+        modifEmployee={modifEmployee}
         setSubmitted={setSubmitted}
+        selectedEmployee={selectedEmployee}
+        setSelectedEmployee={setSelectedEmployee}
       />
 
       {submitted && <p>Employee submitted successfully</p>}
