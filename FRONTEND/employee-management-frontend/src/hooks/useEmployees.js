@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { createEmployee, getAllEmployees } from "../services/graphql/employeeService";
+import { createEmployee, getAllEmployees, updateEmployee } from "../services/graphql/employeeService";
 
 function useEmployees() {
     const [employees, setEmployees] = useState([]);
@@ -32,11 +32,21 @@ function useEmployees() {
         return newEmployee;
     }
 
+    async function modifEmployee(id, input) {
+        const updatedEmployee = await updateEmployee(id, input);
+        setEmployees(prevEmployees => 
+            prevEmployees.map(employee => 
+                employee.id === updatedEmployee.id ? updatedEmployee : employee
+            ));
+        return updatedEmployee;
+    }
+
     return {
         employees,
         loading,
         error,
-        addEmployee
+        addEmployee,
+        modifEmployee
     }
 }
 

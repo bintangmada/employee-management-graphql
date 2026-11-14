@@ -30,3 +30,21 @@ export async function createEmployee(input) {
     return data.createEmployee;
 }
 
+export async function updateEmployee(id, input) {
+    const query = `
+        mutation UpdateEmployee($id: ID!, $input: EmployeeInput!) {
+            updateEmployee(id: $id, input: $input) {
+                id
+                name
+                email
+                position
+            }
+        }
+    `;
+    const data = await graphqlRequest(query, {
+        id,
+        input
+    })
+    return data.updateEmployee;
+}
+
