@@ -1,21 +1,15 @@
 import { useState, useEffect } from "react"
-import Button from "./components/common/Button"
 import EmployeeForm from "./components/employee/EmployeeForm";
+import EmployeeTable from "./components/employee/EmployeeTable";
+import useEmployees from "./hooks/useEmployees";
 
 function App() {
-
-  const [count, setCount] = useState(0);
   const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const [employees, setEmployees] = useState([]);
 
-  function handleSubmit(event){
-    event.preventDefault();
-    console.log("Employee Name : ", name)
-    console.log("Employee Position : ", position)
-    setSubmitted(true);
-  }
+  const {employees, loading, error, addEmployee} = useEmployees();
 
   useEffect(() => {
     console.log("Name: ", name)
@@ -25,54 +19,29 @@ function App() {
     }
   },[name])
 
-  useEffect(() => {
-    fetch("http://localhost:8080/graphql", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json"
-      },
-      body: JSON.stringify({
-        query: `
-          query {
-            getAllEmployees {
-              id
-              name
-              email
-              position
-            }
-          }
-        `
-      })
-    })
-    .then(response => response.json())
-    .then(result => {
-    console.log(result);
-    setEmployees(result.data.getAllEmployees)
-    })
-  },[]);
-  
-
   return (
     <>
       <h1>Employee Management</h1>
       <p>Welcome to Employee Management System</p>
+      
       <br/>
-      <h2>Employee List</h2>
-      <ul>
-        {employees.map((employee) => (
-          <li key={employee.id}>
-            {employee.name} - {employee.position}
-          </li>
-        ))}
-      </ul>
+
+      {loading && <p>Loading employees...</p>}
+
+      {error && <p>Error: {error}</p>}
+
+      {!loading && !error && (<EmployeeTable employees={employees}/>)}
+
       <br/>
       
       <EmployeeForm
         name={name}
         setName={setName}
+        email={email}
+        setEmail={setEmail}
         position={position}
         setPosition={setPosition}
-        handleSubmit={handleSubmit}
+        addEmployee={addEmployee}
         setSubmitted={setSubmitted}
       />
 
