@@ -1,4 +1,34 @@
-function EmployeeForm({name, setName, position, setPosition, handleSubmit, setSubmitted}){
+function EmployeeForm({
+    name, 
+    setName, 
+    email,
+    setEmail,
+    position, 
+    setPosition, 
+    addEmployee, 
+    setSubmitted
+}){
+
+    async function handleSubmit(event) {
+        event.preventDefault();
+
+        try {
+            await addEmployee({
+                name,
+                email,
+                position
+            });
+
+            setSubmitted(true);
+
+            setName("");
+            setEmail("");
+            setPosition("");
+        } catch (error) {
+            console.log("Failed to create emmployee: ", error);
+        }
+    }
+
     return(
         <form onSubmit={handleSubmit}>
             
@@ -11,6 +41,16 @@ function EmployeeForm({name, setName, position, setPosition, handleSubmit, setSu
                     setSubmitted(false)
                 }}
 
+            />
+
+            <input
+                type="text"
+                placeholder="Input employee email"
+                value={email}
+                onChange={(e) => {
+                    setEmail(e.target.value)
+                    setSubmitted(false)
+                }}
             />
 
             <input
