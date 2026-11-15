@@ -18,6 +18,7 @@ function App() {
   } = useEmployees();
   const [selectedEmployee, setSelectedEmployee] = useState(null);
   const [search, setSearch] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   const filteredEmployees = useMemo(() => {
     console.log("Filtered employees");
@@ -89,6 +90,12 @@ function App() {
       />
 
       {submitted && <p>Employee submitted successfully</p>}
+      <br/>
+      <button onClick={() => setShowMessage(!showMessage)}>
+        Toggle Message
+      </button>
+
+      {showMessage && <p>Hello React!</p>}
     </>
   )
 }
