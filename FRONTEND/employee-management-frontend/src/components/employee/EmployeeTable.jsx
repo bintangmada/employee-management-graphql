@@ -1,4 +1,4 @@
-function EmployeeTable({employees, onEdit}) {
+function EmployeeTable({employees, onEdit, onDelete}) {
     return (
         <div>
             <h2>Employee List</h2>
@@ -7,6 +7,7 @@ function EmployeeTable({employees, onEdit}) {
                     <li key={employee.id}>
                         {employee.name} - {employee.position}
                         <button onClick={() => onEdit(employee)}>Edit</button>
+                        <button onClick={() => onDelete(employee.id)}>Delete</button>
                     </li>
                 ))}
             </ul>

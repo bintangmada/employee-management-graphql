@@ -48,3 +48,13 @@ export async function updateEmployee(id, input) {
     return data.updateEmployee;
 }
 
+export async function deleteEmployee(id) {
+    const query = `
+        mutation DeleteEmployee($id: ID!) {
+            deleteEmployee(id: $id)
+        }
+    `;
+    const data = await graphqlRequest(query, {id});
+    return data.deleteEmployee;
+}
+

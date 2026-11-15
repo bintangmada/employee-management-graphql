@@ -8,7 +8,14 @@ function App() {
   const [email, setEmail] = useState("");
   const [position, setPosition] = useState("");
   const [submitted, setSubmitted] = useState(false);
-  const {employees, loading, error, addEmployee, modifEmployee} = useEmployees();
+  const {
+    employees, 
+    loading, 
+    error, 
+    addEmployee, 
+    modifEmployee,
+    removeEmployee
+  } = useEmployees();
   const [selectedEmployee, setSelectedEmployee] = useState(null);
 
   useEffect(() => {
@@ -21,6 +28,14 @@ function App() {
 
   function handleEdit(employee) {
     setSelectedEmployee(employee)
+  }
+
+  async function handleDelete(id) {
+    try {
+      await removeEmployee(id);
+    } catch (error) {
+      console.log("Failed to delete employee: ", error);
+    }
   }
 
   return (
@@ -38,6 +53,7 @@ function App() {
       (<EmployeeTable 
         employees={employees}
         onEdit={handleEdit}
+        onDelete={handleDelete}
       />)}
 
       <br/>

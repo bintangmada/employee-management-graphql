@@ -74,10 +74,12 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
+    @Transactional
     public Boolean deleteEmployee(Long id) {
         Employee employee = findActiveEmployee(id);
         employee.setDeleted(true);
-        employeeRepository.save(employee);
+        Employee savedEmployee = employeeRepository.saveAndFlush(employee);
+        System.out.println("Deleted status: " + savedEmployee.getDeleted());
         return true;
     }
 
