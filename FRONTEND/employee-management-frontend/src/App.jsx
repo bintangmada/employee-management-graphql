@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react"
+import { useState, useEffect, useMemo } from "react"
 import EmployeeForm from "./components/employee/EmployeeForm";
 import EmployeeTable from "./components/employee/EmployeeTable";
 import useEmployees from "./hooks/useEmployees";
@@ -17,6 +17,14 @@ function App() {
     removeEmployee
   } = useEmployees();
   const [selectedEmployee, setSelectedEmployee] = useState(null);
+  const [search, setSearch] = useState("");
+
+  const filteredEmployees = useMemo(() => {
+    console.log("Filtered employees");
+    return employees.filter(employee => 
+      employee.name.toLowerCase().includes(search.toLowerCase())
+    )
+  }, [employees, search])
 
   useEffect(() => {
     console.log("Name: ", name)
@@ -49,9 +57,17 @@ function App() {
 
       {error && <p>Error: {error}</p>}
 
+      <input
+        type="text"
+        placeholder="Search employee"
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+      <p>Keyword : {search}</p>
+
       {!loading && !error && 
       (<EmployeeTable 
-        employees={employees}
+        employees={filteredEmployees}
         onEdit={handleEdit}
         onDelete={handleDelete}
       />)}
